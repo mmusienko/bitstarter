@@ -7,10 +7,10 @@ var CHECKSFILE_DEFAULT = "checks.json";
 var assertFileExists = function(infile) {
     var instr= infile.toString();
     if(!fs.existsSync(instr)) {
-	console.log("%s does not exists. Exiting.", instr)
+	console.log("%s does not exists. Exiting.", instr);
 	process.exit(1);
-    }
-    return instr;
+   }
+   return instr;
 };
 
 var cheerioHtmlFile = function(htmlfile) {
@@ -29,20 +29,18 @@ var checkHtmlFile = function(htmlFile, checklfile) {
 	var present = $(checks[ii]).length > 0;
 	out[checks[ii]] = present;
     }
-dreturn out;
+    return out;
 };
 
 var clone = function(fn) {
-    //Workaround for commander.js issue
-    // http://sta
     return fn.bind({});
-}:
+};
 
 if(require.main == module) {
     program
-	.option('-c, --checks <check_file>', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT)
-	.option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
-	.parse(process.arg);
+        .option('-c, --checks <check_file>', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT)
+        .option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
+        .parse(process.argv);
     var checkJson = checkHtmlFile(program.file, program.checks);
     var outJson = JSON.stringify(checkJson, null, 4);
     console.log(outJson);
